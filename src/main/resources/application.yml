@@ -1,0 +1,4 @@
+aerospike:
+  hosts: localhost
+  port: 3000
+  namespace: test
