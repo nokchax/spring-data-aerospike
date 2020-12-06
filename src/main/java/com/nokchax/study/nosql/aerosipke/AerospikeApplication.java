@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AerosipkeApplication {
+public class AerospikeApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AerosipkeApplication.class, args);
+        SpringApplication.run(AerospikeApplication.class, args);
     }
 
 }
