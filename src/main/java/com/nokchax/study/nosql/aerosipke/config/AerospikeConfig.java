@@ -19,7 +19,7 @@ public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
     private List<String> hosts;
     @Value("${aerospike.port}")
     private int port;
-    @Value("${aerospike.namespace")
+    @Value("${aerospike.namespace}")
     private String namespace;
 
     @Override
