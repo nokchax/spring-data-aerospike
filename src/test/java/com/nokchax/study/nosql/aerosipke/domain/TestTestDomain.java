@@ -3,6 +3,8 @@ package com.nokchax.study.nosql.aerosipke.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
@@ -40,4 +42,19 @@ class TestTestDomain {
         testRepository.deleteAll();
     }
 
+    @Test
+    public void updateTest() {
+        TestDomain newTestDomain = new TestDomain(1L, "#1");
+        testRepository.save(newTestDomain);
+        TestDomain testDomainFromAS = testRepository.findById(1L).get();
+
+        assertThat(testDomainFromAS).isNotNull();
+        assertThat(testDomainFromAS.getValue()).isEqualTo("#1");
+
+        testDomainFromAS.setValue("@1");
+        testRepository.save(testDomainFromAS);
+
+        TestDomain updatedDomain = testRepository.findById(1L).get();
+        assertThat(updatedDomain.getValue()).isEqualTo("@1");
+    }
 }
