@@ -3,14 +3,13 @@ package com.nokchax.study.nosql.aerosipke.domain;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+//@DataJpaTest // NoClassDefFoundError: org/springframework/jdbc/core/ConnectionCallback
 @SpringBootTest
 class TestTestDomain {
     @Autowired
