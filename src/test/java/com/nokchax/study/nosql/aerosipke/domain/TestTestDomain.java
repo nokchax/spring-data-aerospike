@@ -60,4 +60,12 @@ class TestTestDomain {
         assertThat(updatedDomain.getValue()).isEqualTo("@1");
     }
 
+    @Test
+    @DisplayName("Expire 가 잘 적용되는지")
+    public void testExpiration() {
+        // set expire
+        // get
+        // thread sleep
+        // get
+    }
 }
