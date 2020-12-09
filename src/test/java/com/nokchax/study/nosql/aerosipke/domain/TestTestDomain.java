@@ -23,6 +23,7 @@ class TestTestDomain {
     }
 
     @Test
+    @DisplayName("데이터를 가지고 오는지")
     public void getTest() {
         Optional<TestDomain> testDomain = testRepository.findById(1L);
 
@@ -30,6 +31,7 @@ class TestTestDomain {
     }
 
     @Test
+    @DisplayName("데이터를 잘 저장하고 가져오는지")
     public void putTest() {
         TestDomain newTestDomain = new TestDomain(1L, "#1");
         testRepository.save(newTestDomain);
@@ -42,6 +44,7 @@ class TestTestDomain {
     }
 
     @Test
+    @DisplayName("데이터를 잘 업데이트 하는지")
     public void updateTest() {
         TestDomain newTestDomain = new TestDomain(1L, "#1");
         testRepository.save(newTestDomain);
@@ -56,4 +59,5 @@ class TestTestDomain {
         TestDomain updatedDomain = testRepository.findById(1L).get();
         assertThat(updatedDomain.getValue()).isEqualTo("@1");
     }
+
 }
