@@ -1,6 +1,7 @@
 package com.nokchax.study.nosql.aerosipke.config;
 
 import com.aerospike.client.Host;
+import com.aerospike.client.policy.ClientPolicy;
 import com.nokchax.study.nosql.aerosipke.domain.TestRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -32,5 +33,14 @@ public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
     @Override
     protected String nameSpace() {
         return namespace;
+    }
+
+    @Override
+    protected ClientPolicy getClientPolicy() {
+        ClientPolicy clientPolicy = super.getClientPolicy();
+
+        clientPolicy.writePolicyDefault.expiration = 5;
+
+        return clientPolicy;
     }
 }
