@@ -3,6 +3,7 @@ package com.nokchax.study.nosql.aerosipke.config;
 import com.aerospike.client.Host;
 import com.aerospike.client.policy.ClientPolicy;
 import com.nokchax.study.nosql.aerosipke.domain.TestRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.aerospike.config.AbstractAerospikeDataConfiguration;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
+@Slf4j
 @Configuration
 @EnableAerospikeRepositories(basePackageClasses = TestRepository.class)
 public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
@@ -39,7 +41,8 @@ public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
     protected ClientPolicy getClientPolicy() {
         ClientPolicy clientPolicy = super.getClientPolicy();
 
-        clientPolicy.writePolicyDefault.expiration = 5;
+        clientPolicy.writePolicyDefault.expiration = 2;
+        log.info("Set ttl : " + clientPolicy.writePolicyDefault.expiration);
 
         return clientPolicy;
     }
