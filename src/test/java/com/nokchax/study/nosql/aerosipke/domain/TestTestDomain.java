@@ -1,19 +1,26 @@
 package com.nokchax.study.nosql.aerosipke.domain;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-//@DataJpaTest // NoClassDefFoundError: org/springframework/jdbc/core/ConnectionCallback
 @SpringBootTest
 class TestTestDomain {
     @Autowired
     private TestRepository testRepository;
+
+    @AfterEach
+    public void clear() {
+        testRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("Aerospike 가 잘 초기화 되는지")
@@ -39,8 +46,6 @@ class TestTestDomain {
 
         assertThat(testDomainFromAS.isPresent()).isTrue();
         assertThat(testDomainFromAS.get().getValue()).isEqualTo("#1");
-
-        testRepository.deleteAll();
     }
 
     @Test
@@ -62,10 +67,15 @@ class TestTestDomain {
 
     @Test
     @DisplayName("Expire 가 잘 적용되는지")
-    public void testExpiration() {
-        // set expire
-        // get
-        // thread sleep
-        // get
+    public void testExpiration() throws InterruptedException {
+        assertThatThrownBy(() -> testRepository.findById(1L).orElseThrow())
+                .isInstanceOf(NoSuchElementException.class);
+
+        TestDomain newTestDomain = new TestDomain(1L, "#1");
+        testRepository.save(newTestDomain);
+        // how to clear context when test aerospike
+
+        Thread.sleep(2100);
+        assertThat(testRepository.findById(1L).isEmpty()).isTrue();
     }
 }
