@@ -74,6 +74,7 @@ class TestTestDomain {
         TestDomain newTestDomain = new TestDomain(1L, "#1");
         testRepository.save(newTestDomain);
         // how to clear context when test aerospike
+        // 다른 트랜잭션을 사용하도록?
 
         Thread.sleep(2100);
         assertThat(testRepository.findById(1L).isEmpty()).isTrue();
