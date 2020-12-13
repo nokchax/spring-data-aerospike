@@ -1,5 +1,6 @@
 package com.nokchax.study.nosql.aerosipke.domain;
 
+import com.aerospike.client.AerospikeClient;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -76,7 +77,7 @@ class TestTestDomain {
         // how to clear context when test aerospike
         // 다른 트랜잭션을 사용하도록?
 
-        Thread.sleep(2100);
+        Thread.sleep(11000);
         assertThat(testRepository.findById(1L).isEmpty()).isTrue();
     }
 }

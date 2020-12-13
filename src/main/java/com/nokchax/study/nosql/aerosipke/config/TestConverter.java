@@ -24,7 +24,7 @@ public class TestConverter {
         @Override
         public AerospikeWriteData convert(TestDomain source) {
             Key key = new Key(namespace, setName, source.getId());
-            int expire = 2;
+            int expire = 10;
 
             Integer version = null; // not versionable document
             Collection<Bin> bins = List.of(
