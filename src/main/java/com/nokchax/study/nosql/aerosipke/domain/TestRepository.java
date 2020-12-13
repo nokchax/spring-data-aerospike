@@ -1,6 +1,6 @@
 package com.nokchax.study.nosql.aerosipke.domain;
 
-import org.springframework.data.aerospike.repository.AerospikeRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface TestRepository extends AerospikeRepository<TestDomain, Long> {
+public interface TestRepository extends CrudRepository<TestDomain, Long> {
 }

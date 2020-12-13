@@ -12,25 +12,19 @@ import org.springframework.data.convert.WritingConverter;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class TestConverter {
 
     @WritingConverter
     @RequiredArgsConstructor
-    public static class UserDataToMapConverter implements Converter<TestDomain, AerospikeWriteData> {
-        private final String namespace = "test";
-        private final String setName = "test";
+    public static class TesDomainToWriteDataConverter implements Converter<TestDomain, AerospikeWriteData> {
+        private final String namespace;
+        private final String setName;
 
         @Override
         public AerospikeWriteData convert(TestDomain source) {
             Key key = new Key(namespace, setName, source.getId());
             int expire = 2;
-
-            Map<String, Object> map = Map.of(
-                    "id", source.getId(),
-                    "value", source.getValue()
-            );
 
             Integer version = null; // not versionable document
             Collection<Bin> bins = List.of(
@@ -43,7 +37,7 @@ public class TestConverter {
     }
 
     @ReadingConverter
-    public enum MapToUserDataToConverter implements Converter<AerospikeReadData, TestDomain> {
+    public enum ReadDataToTestDomainConverter implements Converter<AerospikeReadData, TestDomain> {
         INSTANCE;
 
         @Override

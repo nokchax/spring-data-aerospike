@@ -1,7 +1,6 @@
 package com.nokchax.study.nosql.aerosipke.config;
 
 import com.aerospike.client.Host;
-import com.aerospike.client.policy.ClientPolicy;
 import com.nokchax.study.nosql.aerosipke.domain.TestRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,12 +37,10 @@ public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
     }
 
     @Override
-    protected ClientPolicy getClientPolicy() {
-        ClientPolicy clientPolicy = super.getClientPolicy();
-
-        clientPolicy.writePolicyDefault.expiration = 2;
-        log.info("Set ttl : " + clientPolicy.writePolicyDefault.expiration);
-
-        return clientPolicy;
+    protected List<?> customConverters() {
+        return List.of(
+                new TestConverter.TesDomainToWriteDataConverter(namespace, "test"),
+                TestConverter.ReadDataToTestDomainConverter.INSTANCE
+        );
     }
 }
