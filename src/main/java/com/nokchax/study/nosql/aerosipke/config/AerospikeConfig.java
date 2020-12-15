@@ -36,6 +36,7 @@ public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
         return namespace;
     }
 
+/*
     @Override
     protected List<?> customConverters() {
         return List.of(
@@ -43,4 +44,5 @@ public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
 //                TestConverter.ReadDataToTestDomainConverter.INSTANCE
         );
     }
+*/
 }

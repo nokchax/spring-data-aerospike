@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 
 @Getter
 @Setter
-@Document(collection = "domain")
+@Document(collection = "domain", expiration = 1)
 @AllArgsConstructor
 public class TestDomain {
     @Id
