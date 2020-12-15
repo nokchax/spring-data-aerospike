@@ -39,7 +39,7 @@ public class AerospikeConfig extends AbstractAerospikeDataConfiguration {
     @Override
     protected List<?> customConverters() {
         return List.of(
-                new TestConverter.TesDomainToWriteDataConverter(namespace, "test")
+                new TestConverter.TesDomainToWriteDataConverter(namespace, "domain")
 //                TestConverter.ReadDataToTestDomainConverter.INSTANCE
         );
     }
