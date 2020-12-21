@@ -14,6 +14,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 class TestTestDomain {
+    private static final long ID = 1L;
     @Autowired
     private TestRepository testRepository;
 
@@ -26,34 +27,32 @@ class TestTestDomain {
     @DisplayName("Aerospike 가 잘 초기화 되는지")
     public void diTest() {
         assertThat(testRepository).isNotNull();
-        System.out.println(testRepository);
     }
 
     @Test
     @DisplayName("데이터를 가지고 오는지")
     public void getTest() {
-        Optional<TestDomain> testDomain = testRepository.findById(1L);
-
-        assertThat(testDomain.isEmpty()).isTrue();
+        assertThat(testRepository.findById(ID).isEmpty()).isTrue();
     }
 
     @Test
     @DisplayName("데이터를 잘 저장하고 가져오는지")
     public void putTest() {
-        TestDomain newTestDomain = new TestDomain(1L, "#1");
-        testRepository.save(newTestDomain);
-        Optional<TestDomain> testDomainFromAS = testRepository.findById(1L);
+        saveNewEntity();
 
-        assertThat(testDomainFromAS.isPresent()).isTrue();
-        assertThat(testDomainFromAS.get().getValue()).isEqualTo("#1");
+        TestDomain testDomainFromAS = testRepository.findById(ID)
+                .orElseThrow();
+
+        assertThat(testDomainFromAS).isNotNull();
+        assertThat(testDomainFromAS.getValue()).isEqualTo("#1");
     }
 
     @Test
     @DisplayName("데이터를 잘 업데이트 하는지")
     public void updateTest() {
-        TestDomain newTestDomain = new TestDomain(1L, "#1");
-        testRepository.save(newTestDomain);
-        TestDomain testDomainFromAS = testRepository.findById(1L).get();
+        saveNewEntity();
+        TestDomain testDomainFromAS = testRepository.findById(ID)
+                .orElseThrow();
 
         assertThat(testDomainFromAS).isNotNull();
         assertThat(testDomainFromAS.getValue()).isEqualTo("#1");
@@ -61,7 +60,8 @@ class TestTestDomain {
         testDomainFromAS.setValue("@1");
         testRepository.save(testDomainFromAS);
 
-        TestDomain updatedDomain = testRepository.findById(1L).get();
+        TestDomain updatedDomain = testRepository.findById(1L)
+                .orElseThrow();
         assertThat(updatedDomain.getValue()).isEqualTo("@1");
     }
 
@@ -71,10 +71,14 @@ class TestTestDomain {
         assertThatThrownBy(() -> testRepository.findById(1L).orElseThrow())
                 .isInstanceOf(NoSuchElementException.class);
 
-        TestDomain newTestDomain = new TestDomain(1L, "#1");
-        testRepository.save(newTestDomain);
+        saveNewEntity();
 
         Thread.sleep(2000);
         assertThat(testRepository.findById(1L).isEmpty()).isTrue();
+    }
+
+    private void saveNewEntity() {
+        TestDomain newTestDomain = new TestDomain(1L, "#1");
+        testRepository.save(newTestDomain);
     }
 }
