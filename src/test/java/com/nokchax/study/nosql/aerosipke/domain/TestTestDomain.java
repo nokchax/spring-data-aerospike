@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,6 +14,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @SpringBootTest
 class TestTestDomain {
     private static final long ID = 1L;
+    private static final String VALUE = "#1";
+    private static final String MODIFIED_VALUE = "@1";
+
     @Autowired
     private TestRepository testRepository;
 
@@ -44,7 +46,7 @@ class TestTestDomain {
                 .orElseThrow();
 
         assertThat(testDomainFromAS).isNotNull();
-        assertThat(testDomainFromAS.getValue()).isEqualTo("#1");
+        assertThat(testDomainFromAS.getValue()).isEqualTo(VALUE);
     }
 
     @Test
@@ -55,30 +57,30 @@ class TestTestDomain {
                 .orElseThrow();
 
         assertThat(testDomainFromAS).isNotNull();
-        assertThat(testDomainFromAS.getValue()).isEqualTo("#1");
+        assertThat(testDomainFromAS.getValue()).isEqualTo(VALUE);
 
-        testDomainFromAS.setValue("@1");
+        testDomainFromAS.setValue(MODIFIED_VALUE);
         testRepository.save(testDomainFromAS);
 
-        TestDomain updatedDomain = testRepository.findById(1L)
+        TestDomain updatedDomain = testRepository.findById(ID)
                 .orElseThrow();
-        assertThat(updatedDomain.getValue()).isEqualTo("@1");
+        assertThat(updatedDomain.getValue()).isEqualTo(MODIFIED_VALUE);
     }
 
     @Test
     @DisplayName("Expire 가 잘 적용되는지")
     public void testExpiration() throws InterruptedException {
-        assertThatThrownBy(() -> testRepository.findById(1L).orElseThrow())
+        assertThatThrownBy(() -> testRepository.findById(ID).orElseThrow())
                 .isInstanceOf(NoSuchElementException.class);
 
         saveNewEntity();
 
         Thread.sleep(2000);
-        assertThat(testRepository.findById(1L).isEmpty()).isTrue();
+        assertThat(testRepository.findById(ID).isEmpty()).isTrue();
     }
 
     private void saveNewEntity() {
-        TestDomain newTestDomain = new TestDomain(1L, "#1");
+        TestDomain newTestDomain = new TestDomain(ID, VALUE);
         testRepository.save(newTestDomain);
     }
 }
