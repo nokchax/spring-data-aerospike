@@ -55,7 +55,7 @@ public class TestDomain {
     private String value;
 }
 ```
-@Document 어노테이션을 사용해서, set의 이름과 도매인이 저장됐을때 expire time을 지정할 수 있습니다.
+@Document 어노테이션을 사용해서, set(RDB에서 table과 같은 개념)의 이름과 도매인이 저장됐을때 expire time을 지정할 수 있습니다.
 
 ### Repository
 ```java
